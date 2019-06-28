@@ -30,12 +30,12 @@ class Tail extends Entity {
   }
 
   renderPoints() {}
-  render() {
-    for (let i = 0; i < this.sticks.length; i++) {
-      this.sticks[i].color = '#35ebbe'
-    }
-    for (let i = 0; i < this.points.length; i++) {
-      this.points[i].friction = 0.75;
-    }
-  }
+  // render() {
+  //   for (let i = 0; i < this.sticks.length; i++) {
+  //     this.sticks[i].color = '#35ebbe'
+  //   }
+  //   for (let i = 0; i < this.points.length; i++) {
+  //     this.points[i].friction = 0.75;
+  //   }
+  // }
 }

@@ -29,7 +29,7 @@ class Boid {
       'brian', 'ninja', 'daniel'
     ];
 
-    this.name = names[Math.floor(Math.random()*names.length)];
+    this.name = names[Math.floor(Math.random() * names.length)];
 
     // this.tail = verly.createRope(this.pos.x, this.pos.y, 8, 5, 0);
     this.tail = new Tail(this.pos.x, this.pos.y, (Math.floor(5 + Math.random() * 10)), (Math.floor(2 + Math.random() * 5)), 0);
@@ -47,9 +47,19 @@ class Boid {
     this.pos.add(this.vel);
     this.acc.mult(0);
     this.tail.update();
+    this.tail.render();
     this.tail.points[0].pos.x = this.pos.x;
     this.tail.points[0].pos.y = this.pos.y;
-
+    this.setTailAttribs();
+  }
+  
+  setTailAttribs() {
+    for (let i = 0; i < this.tail.sticks.length; i++) {
+      this.tail.sticks[i].color = '#35ebbe'
+    }
+    for (let i = 0; i < this.tail.points.length; i++) {
+      this.tail.points[i].friction = 0.75;
+    }
   }
 
   /**
@@ -126,17 +136,14 @@ class Boid {
    * @param {CanvasRenderingContext2D} ctx
    */
   render(ctx) {
-
     ctx.beginPath();
     // ctx.fillStyle = `rgba(${this.color[0]},${this.color[1]},${this.color[2]},${this.health})`;
     let angle = this.vel.heading();
-
-
     ctx.save();
     ctx.fillStyle = '#35eb35';
     ctx.translate(this.pos.x, this.pos.y);
     ctx.rotate(angle);
-    ctx.arc(0, 0, 4, 0, Math.PI*2)
+    ctx.arc(0, 0, 4, 0, Math.PI * 2)
     // ctx.moveTo(this.radius, 0);
     // ctx.lineTo(-this.radius, -this.radius + 2);
     // ctx.lineTo(-this.radius, this.radius - 4);

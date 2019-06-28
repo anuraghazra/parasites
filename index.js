@@ -5,25 +5,22 @@
  */
 let width;
 let height
-let canvas;
-let ctx;
-let verly;
 let mouseX;
 let mouseY;
 const FLEE_RADIUS = 100;
 window.onload = function () {
-  canvas = document.getElementById('c');
-  ctx = canvas.getContext('2d');
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight - 5;
 
   let boids = [];
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 50; i++) {
     boids.push(new Boid(Math.random() * width, Math.random() * height, 5))
   }
   
-  verly = new Verly(16);
-
+  const verly = new Verly(16, canvas, ctx);
+  
   // mouse 
   window.addEventListener('mousemove', function(e) {
     mouseX = e.offsetX;
@@ -45,8 +42,12 @@ window.onload = function () {
       b.boundaries();
       b.render(ctx);
     }
-    verly.update();
 
+    verly.update();
+    verly.render();
+    verly.interact();
+
+    // mouse
     ctx.beginPath();
     ctx.strokeStyle = 'rgba(255,255,255, 0.2)';
     ctx.arc(mouseX, mouseY, FLEE_RADIUS, 0, Math.PI*2);
