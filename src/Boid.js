@@ -1,9 +1,8 @@
 class Boid {
-
-  constructor(x, y, radius) {
+  constructor(x, y, radius, verly) {
     this.pos = new Vector(x, y);
     this.acc = new Vector(0, 0);
-    this.vel = new Vector.random2D(0, 0);
+    this.vel = Vector.random2D(0, 0);
     this.vel.mult(10);
 
     this.radius = radius || 5;
@@ -31,8 +30,14 @@ class Boid {
 
     this.name = names[Math.floor(Math.random() * names.length)];
 
-    // this.tail = verly.createRope(this.pos.x, this.pos.y, 8, 5, 0);
-    this.tail = new Tail(this.pos.x, this.pos.y, (Math.floor(5 + Math.random() * 10)), (Math.floor(2 + Math.random() * 5)), 0);
+    this.tail = new Tail(
+      this.pos.x,
+      this.pos.y,
+      Math.floor(random(5, 10)),
+      Math.floor(random(5, 10)),
+      0,
+      verly
+    );
     this.tail.setGravity(new Vector(0, 0))
   }
 
@@ -48,19 +53,9 @@ class Boid {
     this.acc.mult(0);
     this.tail.update();
     this.tail.render();
-    this.tail.points[0].pos.x = this.pos.x;
-    this.tail.points[0].pos.y = this.pos.y;
-    this.setTailAttribs();
+    this.tail.points[0].pos.setXY(this.pos.x, this.pos.y)
   }
-  
-  setTailAttribs() {
-    for (let i = 0; i < this.tail.sticks.length; i++) {
-      this.tail.sticks[i].color = '#35ebbe'
-    }
-    for (let i = 0; i < this.tail.points.length; i++) {
-      this.tail.points[i].friction = 0.75;
-    }
-  }
+
 
   /**
    * @method applyForce()
@@ -79,14 +74,12 @@ class Boid {
     let desire = null;
     if (this.pos.x < d) {
       desire = new Vector(this.maxSpeed, this.vel.y);
-    }
-    else if (this.pos.x > width - d) {
+    } else if (this.pos.x > width - d) {
       desire = new Vector(-this.maxSpeed, this.vel.y);
     }
     if (this.pos.y < d) {
       desire = new Vector(this.vel.x, this.maxSpeed);
-    }
-    else if (this.pos.y > height - d) {
+    } else if (this.pos.y > height - d) {
       desire = new Vector(this.vel.x, -this.maxSpeed);
     }
     if (desire !== null) {

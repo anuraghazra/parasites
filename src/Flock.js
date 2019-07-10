@@ -23,7 +23,7 @@ class Flock {
     steer.limit(this.currentAgent.maxForce);
     return steer;
   }
-  
+
   /**
    * @method flee()
    * @param {*} target 
